@@ -1,11 +1,11 @@
 
 // VARIABLES FOR THE GAME
 
-var guessWords = ["Cyclops", "Storm", "Wolverine"];
+var guessWords = ["Cyclops", "Wolverine", "Storm"];
 var guessLength = guessWords.length;
 var wins = 0;
 var losses = 0;
-var lives = 0;
+var guesses = 0;
 var startGame = 0;
 var wordActive = 0;
 
@@ -15,24 +15,36 @@ document.onkeydown = function (event) {
 
     if (startGame === 0) {    
         startGame++;
-        alert(startGame)
+        guesses = 10;
         document.getElementById("startgame").innerHTML = "";
         document.getElementById("wins").innerHTML = "wins: " + wins;
         document.getElementById("losses").innerHTML= "losses: " + losses;
-        document.getElementById("guesses").innerHTML = "guesses remaining: " + lives;
+        document.getElementById("guesses").innerHTML = "guesses remaining: " + guesses;
+        document.getElementById("lettersguessed").innerHTML= "letters guessed: ";
     }
 
-    if (startGame === 1) {
-        var userGuess = event.key;
-        alert(userGuess);
+    else if (startGame === 1 && guesses > 0) {
+
+        var userGuess = event.key.toLowerCase();
+        document.getElementById("lettersguessed").innerHTML += userGuess + " "
+        guesses --;
+        document.getElementById("guesses").innerHTML = "guesses remaining: " + guesses;
+        
+        if (guesses === 0) {
+        document.getElementById("lettersguessed").innerHTML= "letters guessed: ";
+        losses++;
+        document.getElementById("losses").innerHTML= "losses: " + losses;
+        guesses = 10;
+        wordActive = 0;
+        }
     }
 
     if (wordActive === 0) {
         var currentWord = Math.floor(Math.random() * guessLength);
         var currentLength = guessWords[currentWord].length;
-        alert(currentLength);
         wordActive++;
     }
+
         
     if (wordActive===1) {
         var blankWord = ""
@@ -44,7 +56,14 @@ document.onkeydown = function (event) {
             document.getElementById("currentword").innerHTML = blankWord;
         }
         
-        alert(blankWord.charAt(3))
+        if (guessWords[currentWord]==="Cyclops") {
+        }
+
+        else if (guessWords[currentWord]==="Wolverine") {
+        }
+
+        else if (guessWords[currentWord]==="Storm") {
+        }   
     }
     
 }
