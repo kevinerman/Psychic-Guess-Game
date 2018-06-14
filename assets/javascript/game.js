@@ -1,69 +1,53 @@
 
 // VARIABLES FOR THE GAME
 
-var guessWords = ["Cyclops", "Wolverine", "Storm"];
-var guessLength = guessWords.length;
+var guessLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+var guessLength = guessLetters.length;
 var wins = 0;
 var losses = 0;
 var guesses = 0;
-var startGame = 0;
-var wordActive = 0;
+var startGame = false;
+var random = Math.floor(Math.random() * guessLength);
+var randomWord = false;
+var wordActive = false;
+var randomArray = [];
 
 // FUNCTIONS 
 
 document.onkeydown = function (event) {
-
-    if (startGame === 0) {    
-        startGame++;
+  
+  var random = Math.floor(Math.random() * guessLength);
+  var userGuess = event.key.toLowerCase();
+ 
+    if (!startGame){
         guesses = 10;
         document.getElementById("startgame").innerHTML = "";
         document.getElementById("wins").innerHTML = "wins: " + wins;
         document.getElementById("losses").innerHTML= "losses: " + losses;
         document.getElementById("guesses").innerHTML = "guesses remaining: " + guesses;
         document.getElementById("lettersguessed").innerHTML= "letters guessed: ";
+        var currentLetter = guessLetters[random];
+        startGame = true;
+      randomArray.unshift(currentLetter);
     }
-
-    else if (startGame === 1 && guesses > 0) {
-
-        var userGuess = event.key.toLowerCase();
-        document.getElementById("lettersguessed").innerHTML += userGuess + " "
-        guesses --;
-        document.getElementById("guesses").innerHTML = "guesses remaining: " + guesses;
-        
-        if (guesses === 0) {
-        document.getElementById("lettersguessed").innerHTML= "letters guessed: ";
-        losses++;
-        document.getElementById("losses").innerHTML= "losses: " + losses;
-        guesses = 10;
-        wordActive = 0;
-        }
-    }
-
-    if (wordActive === 0) {
-        var currentWord = Math.floor(Math.random() * guessLength);
-        var currentLength = guessWords[currentWord].length;
-        wordActive++;
-    }
-
-        
-    if (wordActive===1) {
-        var blankWord = ""
-
-        for (var j = 0; j < currentLength; j++) {
-
-            blankWord += "_ "
-            
-            document.getElementById("currentword").innerHTML = blankWord;
-        }
-        
-        if (guessWords[currentWord]==="Cyclops") {
-        }
-
-        else if (guessWords[currentWord]==="Wolverine") {
-        }
-
-        else if (guessWords[currentWord]==="Storm") {
-        }   
-    }
-    
+          if (startGame){
+            console.log(randomArray[0]);
+           if (userGuess === randomArray[0]) {
+             wins++;
+             guesses++;
+             startGame = false;
+           }
+           
+          document.getElementById("lettersguessed").innerHTML += userGuess + " "
+          guesses --;
+          document.getElementById("guesses").innerHTML = "guesses remaining: " + guesses;           
+          }
+  
+          if (guesses === 0) {
+          document.getElementById("lettersguessed").innerHTML= "letters guessed: ";
+          losses++;
+          document.getElementById("losses").innerHTML= "losses: " + losses;
+          startGame = false;
+          }
 }
+     
